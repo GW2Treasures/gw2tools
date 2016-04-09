@@ -1,0 +1,38 @@
+{
+    "name": "gw2treasures/gw2tools",
+    "description": "Collection of useful helpers to work with data for Guild Wars 2 in PHP",
+    "keywords": ["GW2Tools", "GW2", "Guild Wars 2", "GW2 API", "Chatlink", "Chatlinks", "Guild Emblems", "Item Attributes"],
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "darthmaim",
+            "email": "darth.maim@arcor.de"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/GW2Treasures/gw2tools/issues",
+        "source": "https://github.com/GW2Treasures/gw2tools"
+    },
+    "require": {
+        "php": ">=5.5.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~4.8|~5.0",
+        "mtdowling/burgomaster": "^0.0.2"
+    },
+    "suggest": {
+        "gw2treasures/gw2api": "^2.0"
+    },
+    "minimum-stability": "stable",
+    "autoload": {
+        "psr-4": {
+            "GW2Treasures\\GW2Tools\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "GW2Treasures\\GW2Tools\\Tests\\": "tests"
+        }
+    }
+}
