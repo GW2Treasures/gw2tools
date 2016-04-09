@@ -15,20 +15,20 @@ class ItemStack extends \stdClass {
     /** @var int */
     public $skin = null;
 
-    public static function fromObject( \stdClass $object ) {
+    public static function fromObject(\stdClass $object) {
         $itemStack = new ItemStack();
 
-        foreach( $object as $property => &$value ) {
+        foreach ($object as $property => &$value) {
             $itemStack->{$property} = $value;
         }
 
         return $itemStack;
     }
 
-    public static function fromArray( array $array ) {
+    public static function fromArray(array $array) {
         $itemStack = new ItemStack();
 
-        foreach( $array as $property => &$value ) {
+        foreach ($array as $property => &$value) {
             $itemStack->{$property} = $value;
         }
 

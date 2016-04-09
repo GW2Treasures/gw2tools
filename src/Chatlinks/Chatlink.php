@@ -2,6 +2,10 @@
 
 namespace GW2Treasures\GW2Tools\Chatlinks;
 
+use GW2Treasures\GW2Tools\Chatlinks\Exceptions\ChatlinkFormatException;
+use GW2Treasures\GW2Tools\Chatlinks\Exceptions\InvalidChatlinkTypeException;
+use GW2Treasures\GW2Tools\Chatlinks\Exceptions\UnknownChatlinkTypeException;
+
 abstract class Chatlink {
     const TYPE_COIN = 0x01;
     const TYPE_ITEM = 0x02;
@@ -17,31 +21,59 @@ abstract class Chatlink {
 
     /**
      *  Decodes a base64 encoded chat code.
+     *
+     * @param $code
+     * @return ChatLink
+     * @throws ChatlinkFormatException
+     * @throws UnknownChatlinkTypeException
+     * @throws \Exception
      */
-    public static function decode( $code ) {
-        $data = self::getData( $code );
+    public static function decode($code) {
+        $data = self::getData($code);
 
-        switch( $data[0] ) {
-            case self::TYPE_ITEM: return ItemChatlink::decode( $code );
+        $chatlinkType = $data[0];
+
+        switch ($chatlinkType) {
+            case self::TYPE_ITEM:
+                return ItemChatlink::decode($code);
         }
 
-        throw new \Exception('Unknown chat link type');
+        throw new UnknownChatlinkTypeException("Unknown chat link type ($chatlinkType)");
     }
-
-    public abstract function getType();
 
     /**
      * Parses base64 encoded chat code and returns byte array.
      *
      * @param string $code
-     * @return int[]
+     * @return \int[]
+     * @throws ChatlinkFormatException
      */
-    protected static function getData( $code ) {
+    protected static function getData($code) {
+        if(preg_match('/^\[&([a-z\d+\/]+=*)\]$/i', $code, $matches) !== 1) {
+            throw new ChatlinkFormatException("Chatcode does not match the expected format.");
+        }
+
+        $base64 = $matches[1];
+
         $data = [];
-        foreach( str_split( base64_decode( $code )) as $char ){
-            $data[] = ord( $char );
+        foreach (str_split(base64_decode($base64)) as $char) {
+            $data[] = ord($char);
         }
 
         return $data;
+    }
+
+    public abstract function getType();
+
+    /**
+     * @param int $expected
+     * @param int $actual
+     * @return InvalidChatlinkTypeException
+     */
+    protected static function invalidChatlinkTypeException($expected, $actual) {
+        return new InvalidChatlinkTypeException(
+            "Expected a chatcode of type $expected, but got $actual instead. ".
+            "Use the generic Chatlink::decode function to decode all types of chatlink."
+        );
     }
 }
