@@ -49,4 +49,4 @@ include __DIR__ . '/gw2tools.phar';
 
 ## License
 
-[MIT](LICENSE) © 2015 gw2treasures.com
+[MIT](LICENSE) © 2016 gw2treasures.com
