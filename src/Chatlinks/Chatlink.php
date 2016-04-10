@@ -53,6 +53,8 @@ abstract class Chatlink {
                 return SkinChatlink::decode($code);
             case self::TYPE_OUTFIT:
                 return OutfitChatlink::decode($code);
+            case self::TYPE_WVW_OBJECTIVE:
+                return WvWObjectiveChatlink::decode($code);
         }
 
         throw new UnknownChatlinkTypeException("Unknown chat link type ($chatlinkType)");

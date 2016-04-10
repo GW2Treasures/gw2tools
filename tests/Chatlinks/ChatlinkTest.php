@@ -10,6 +10,7 @@ use GW2Treasures\GW2Tools\Chatlinks\SkillChatlink;
 use GW2Treasures\GW2Tools\Chatlinks\SkinChatlink;
 use GW2Treasures\GW2Tools\Chatlinks\TextChatlink;
 use GW2Treasures\GW2Tools\Chatlinks\TraitChatlink;
+use GW2Treasures\GW2Tools\Chatlinks\WvWObjectiveChatlink;
 use GW2Treasures\GW2Tools\Tests\TestCase;
 use GW2Treasures\GW2Tools\Chatlinks\Chatlink;
 use GW2Treasures\GW2Tools\Chatlinks\ItemChatlink;
@@ -94,6 +95,15 @@ class ChatlinkTest extends TestCase {
             "Decoding an outfit chatlink should return an instance of OutfitChatlink");
         $this->assertEquals(Chatlink::TYPE_OUTFIT, $chatlink->getType(),
             "Decoded outfit chatlink should have the type outfit");
+    }
+
+    function testDecodeWvWObjectiveChatlink() {
+        $chatlink = Chatlink::decode('[&DGYAAABOBAAA]');
+
+        $this->assertInstanceOf(WvWObjectiveChatlink::class, $chatlink,
+            "Decoding a WvW objective chatlink should return an instance of WvWObjectiveChatlink");
+        $this->assertEquals(Chatlink::TYPE_WVW_OBJECTIVE, $chatlink->getType(),
+            "Decoded WvW objective chatlink should have the type WvW objective");
     }
 
     /**
