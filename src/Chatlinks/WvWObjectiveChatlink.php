@@ -68,7 +68,7 @@ class WvWObjectiveChatlink extends Chatlink {
     }
 
     public function getId() {
-        return $this->mapId.'-'.$this->objectiveId;
+        return $this->getMapId().'-'.$this->getObjectiveId();
     }
 
     public function getObjectiveId() {

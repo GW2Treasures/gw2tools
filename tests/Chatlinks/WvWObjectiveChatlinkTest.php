@@ -28,4 +28,18 @@ class WvWObjectiveChatlinkTest extends TestCase {
         $this->assertEquals('[&DGYAAABOBAAA]', (new WvWObjectiveChatlink('1102-102'))->encode());
         $this->assertEquals('[&DGYAAABOBAAA]', (new WvWObjectiveChatlink(102, 1102))->encode());
     }
+
+    /**
+     * @expectedException \InvalidArgumentException
+     */
+    public function testInvalidObjectiveId() {
+        new WvWObjectiveChatlink('102-asd');
+    }
+
+    /**
+     * @expectedException \InvalidArgumentException
+     */
+    public function testInvalidMissingMapId() {
+        new WvWObjectiveChatlink(102);
+    }
 }
