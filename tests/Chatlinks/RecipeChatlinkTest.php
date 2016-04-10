@@ -17,18 +17,18 @@ class RecipeChatlinkTest extends TestCase {
      * @expectedException \GW2Treasures\GW2Tools\Chatlinks\Exceptions\ChatlinkFormatException
      */
     public function testDecodeInvalidChatlink() {
-        RecipeChatlink::decode('[&CgEAAAAAAAAAA]');
+        RecipeChatlink::decode('[&CQEAAAAinvalid]');
     }
 
     public function testDecode() {
-        $this->assertEquals(1, RecipeChatlink::decode('[&CgEAAAA=]')->getId());
-        $this->assertEquals(2, RecipeChatlink::decode('[&CgIAAAA=]')->getId());
-        $this->assertEquals(7, RecipeChatlink::decode('[&CgcAAAA=]')->getId());
+        $this->assertEquals(1, RecipeChatlink::decode('[&CQEAAAA=]')->getId());
+        $this->assertEquals(2, RecipeChatlink::decode('[&CQIAAAA=]')->getId());
+        $this->assertEquals(7, RecipeChatlink::decode('[&CQcAAAA=]')->getId());
     }
 
     public function testEncode() {
-        $this->assertEquals('[&CgEAAAA=]', (new RecipeChatlink(1))->encode());
-        $this->assertEquals('[&CgIAAAA=]', (new RecipeChatlink(2))->encode());
-        $this->assertEquals('[&CgcAAAA=]', (new RecipeChatlink(7))->encode());
+        $this->assertEquals('[&CQEAAAA=]', (new RecipeChatlink(1))->encode());
+        $this->assertEquals('[&CQIAAAA=]', (new RecipeChatlink(2))->encode());
+        $this->assertEquals('[&CQcAAAA=]', (new RecipeChatlink(7))->encode());
     }
 }

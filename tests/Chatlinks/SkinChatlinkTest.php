@@ -17,18 +17,18 @@ class SkinChatlinkTest extends TestCase {
      * @expectedException \GW2Treasures\GW2Tools\Chatlinks\Exceptions\ChatlinkFormatException
      */
     public function testDecodeInvalidChatlink() {
-        SkinChatlink::decode('[&C7cQAAAinvalid]');
+        SkinChatlink::decode('[&CgIAAAAinvalid]');
     }
 
     public function testDecode() {
-        $this->assertEquals(20, SkinChatlink::decode('[&CxQAAAA=]')->getId());
-        $this->assertEquals(6003, SkinChatlink::decode('[&C3MXAAA=]')->getId());
-        $this->assertEquals(4279, SkinChatlink::decode('[&C7cQAAA=]')->getId());
+        $this->assertEquals(2, SkinChatlink::decode('[&CgIAAAA=]')->getId());
+        $this->assertEquals(1079, SkinChatlink::decode('[&CjcEAAA=]')->getId());
+        $this->assertEquals(5743, SkinChatlink::decode('[&Cm8WAAA=]')->getId());
     }
 
     public function testEncode() {
-        $this->assertEquals('[&CxQAAAA=]', (new SkinChatlink(20))->encode());
-        $this->assertEquals('[&C3MXAAA=]', (new SkinChatlink(6003))->encode());
-        $this->assertEquals('[&C7cQAAA=]', (new SkinChatlink(4279))->encode());
+        $this->assertEquals('[&CgIAAAA=]', (new SkinChatlink(2))->encode());
+        $this->assertEquals('[&CjcEAAA=]', (new SkinChatlink(1079))->encode());
+        $this->assertEquals('[&Cm8WAAA=]', (new SkinChatlink(5743))->encode());
     }
 }

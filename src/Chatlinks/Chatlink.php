@@ -12,12 +12,13 @@ abstract class Chatlink {
     const TYPE_TEXT = 0x03;
     const TYPE_MAP = 0x04;
     const TYPE_PVP_GAME = 0x05;
-    const TYPE_SKILL = 0x07;
-    const TYPE_TRAIT = 0x08;
-    const TYPE_PLAYER = 0x09;
-    const TYPE_RECIPE = 0x0A;
-    const TYPE_SKIN = 0x0B;
-    const TYPE_OUTFIT = 0x0C;
+    const TYPE_SKILL = 0x06;
+    const TYPE_TRAIT = 0x07;
+    const TYPE_PLAYER = 0x08;
+    const TYPE_RECIPE = 0x09;
+    const TYPE_SKIN = 0x0A;
+    const TYPE_OUTFIT = 0x0B;
+    const TYPE_WVW_OBJECTIVE = 0x0C;
 
     /**
      *  Decodes a base64 encoded chat code.

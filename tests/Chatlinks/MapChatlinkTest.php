@@ -17,7 +17,7 @@ class MapChatlinkTest extends TestCase {
      * @expectedException \GW2Treasures\GW2Tools\Chatlinks\Exceptions\ChatlinkFormatException
      */
     public function testDecodeInvalidChatlink() {
-        MapChatlink::decode('[&BDgAAAAAAAAA]');
+        MapChatlink::decode('[&BDgAAAAinvalid]');
     }
 
     public function testDecode() {

@@ -52,7 +52,7 @@ class ChatlinkTest extends TestCase {
     }
 
     function testDecodeSkillChatlink() {
-        $chatlink = Chatlink::decode('[&B+cCAAA=]');
+        $chatlink = Chatlink::decode('[&BpcEAAA=]');
 
         $this->assertInstanceOf(SkillChatlink::class, $chatlink,
             "Decoding a skill chatlink should return an instance of SkillChatlink");
@@ -61,7 +61,7 @@ class ChatlinkTest extends TestCase {
     }
 
     function testDecodeTraitChatlink() {
-        $chatlink = Chatlink::decode('[&CPIDAAA=]');
+        $chatlink = Chatlink::decode('[&B/IDAAA=]');
 
         $this->assertInstanceOf(TraitChatlink::class, $chatlink,
             "Decoding a trait chatlink should return an instance of TraitChatlink");
@@ -70,7 +70,7 @@ class ChatlinkTest extends TestCase {
     }
 
     function testDecodeRecipeChatlink() {
-        $chatlink = Chatlink::decode('[&CgEAAAA=]');
+        $chatlink = Chatlink::decode('[&CfUnAAA=]');
 
         $this->assertInstanceOf(RecipeChatlink::class, $chatlink,
             "Decoding a recipe chatlink should return an instance of RecipeChatlink");
@@ -79,7 +79,7 @@ class ChatlinkTest extends TestCase {
     }
 
     function testDecodeSkinChatlink() {
-        $chatlink = Chatlink::decode('[&CwQAAAA=]');
+        $chatlink = Chatlink::decode('[&CgIAAAA=]');
 
         $this->assertInstanceOf(SkinChatlink::class, $chatlink,
             "Decoding a skin chatlink should return an instance of SkinChatlink");
@@ -88,7 +88,7 @@ class ChatlinkTest extends TestCase {
     }
 
     function testDecodeOutfitChatlink() {
-        $chatlink = Chatlink::decode('[&DAQAAAA=]');
+        $chatlink = Chatlink::decode('[&CwEAAAA=]');
 
         $this->assertInstanceOf(OutfitChatlink::class, $chatlink,
             "Decoding an outfit chatlink should return an instance of OutfitChatlink");

@@ -17,7 +17,7 @@ class TextChatlinkTest extends TestCase {
      * @expectedException \GW2Treasures\GW2Tools\Chatlinks\Exceptions\ChatlinkFormatException
      */
     public function testDecodeInvalidChatlink() {
-        TextChatlink::decode('[&AxgnAAAAAAAAAA]');
+        TextChatlink::decode('[&AxgnAAAAAAAinvalid]');
     }
 
     public function testDecode() {
