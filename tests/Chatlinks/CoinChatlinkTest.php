@@ -9,7 +9,7 @@ class CoinChatlinkTest extends TestCase {
     /**
      * @expectedException \GW2Treasures\GW2Tools\Chatlinks\Exceptions\InvalidChatlinkTypeException
      */
-    public function testDecodesOnlyItemChatlinks() {
+    public function testDecodesOnlyCoinChatlinks() {
         CoinChatlink::decode('[&AgEJTQAA]');
     }
 

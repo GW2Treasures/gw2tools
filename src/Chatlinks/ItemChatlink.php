@@ -131,12 +131,7 @@ class ItemChatlink extends Chatlink {
             $this->writeUpgradeItemId($data, $itemStack->upgrades[1]);
         }
 
-        $chatcode = '';
-        foreach ($data as $char) {
-            $chatcode .= chr($char);
-        }
-
-        return '[&'.base64_encode($chatcode).']';
+        return $this->byteArrayToChatcode($data);
     }
 
     public function getType() {

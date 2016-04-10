@@ -16,7 +16,7 @@ abstract class Chatlink {
     const TYPE_TRAIT = 0x08;
     const TYPE_PLAYER = 0x09;
     const TYPE_RECIPE = 0x0A;
-    const TYPE_WARDROBE = 0x0B;
+    const TYPE_SKIN = 0x0B;
     const TYPE_OUTFIT = 0x0C;
 
     /**
@@ -36,6 +36,22 @@ abstract class Chatlink {
         switch ($chatlinkType) {
             case self::TYPE_ITEM:
                 return ItemChatlink::decode($code);
+            case self::TYPE_COIN:
+                return CoinChatlink::decode($code);
+            case self::TYPE_TEXT:
+                return TextChatlink::decode($code);
+            case self::TYPE_MAP:
+                return MapChatlink::decode($code);
+            case self::TYPE_SKILL:
+                return SkillChatlink::decode($code);
+            case self::TYPE_TRAIT:
+                return TraitChatlink::decode($code);
+            case self::TYPE_RECIPE:
+                return RecipeChatlink::decode($code);
+            case self::TYPE_SKIN:
+                return SkinChatlink::decode($code);
+            case self::TYPE_OUTFIT:
+                return OutfitChatlink::decode($code);
         }
 
         throw new UnknownChatlinkTypeException("Unknown chat link type ($chatlinkType)");
@@ -63,6 +79,15 @@ abstract class Chatlink {
         return $data;
     }
 
+    protected function byteArrayToChatcode(array $data) {
+        $chatcode = '';
+        foreach ($data as $char) {
+            $chatcode .= chr($char);
+        }
+
+        return '[&'.base64_encode($chatcode).']';
+    }
+
     public abstract function getType();
 
     /**
@@ -75,5 +100,17 @@ abstract class Chatlink {
             "Expected a chatcode of type $expected, but got $actual instead. ".
             "Use the generic Chatlink::decode function to decode all types of chatlink."
         );
+    }
+
+    protected static function read4Byte($data, &$index) {
+        return $data[$index++] << 0x00 | $data[$index++] << 0x08
+             | $data[$index++] << 0x10 | $data[$index++] << 0x18;
+    }
+
+    protected function write4Byte(&$data, $value) {
+        $data[] = ($value >> 0x00) & 0xFF;
+        $data[] = ($value >> 0x08) & 0xFF;
+        $data[] = ($value >> 0x10) & 0xFF;
+        $data[] = ($value >> 0x18) & 0xFF;
     }
 }
