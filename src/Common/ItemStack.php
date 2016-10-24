@@ -2,7 +2,7 @@
 
 namespace GW2Treasures\GW2Tools\Common;
 
-class ItemStack extends \stdClass {
+class ItemStack extends APIObject {
     /** @var int $count */
     public $count = 1;
 
@@ -14,24 +14,4 @@ class ItemStack extends \stdClass {
 
     /** @var int */
     public $skin = null;
-
-    public static function fromObject(\stdClass $object) {
-        $itemStack = new ItemStack();
-
-        foreach ($object as $property => &$value) {
-            $itemStack->{$property} = $value;
-        }
-
-        return $itemStack;
-    }
-
-    public static function fromArray(array $array) {
-        $itemStack = new ItemStack();
-
-        foreach ($array as $property => &$value) {
-            $itemStack->{$property} = $value;
-        }
-
-        return $itemStack;
-    }
 }
