@@ -22,8 +22,11 @@ class StaticMap {
     /** @var string $cachePath */
     protected $cachePath;
 
-    /** @var array $pointsOfInterest */
-    protected $pointsOfInterest = [];
+    /** @var StaticMapIcon[] $icons */
+    protected $icons = [];
+
+    /** @var StaticMapLabel[] $labels */
+    protected $labels = [];
 
     /**
      * StaticMap constructor.
@@ -59,26 +62,25 @@ class StaticMap {
     }
 
     public function addWaypoint(Coordinate $position, $label) {
-        $this->pointsOfInterest[] = ['type' => 'waypoint'] + compact('position', 'label');
+        $this->addLabel(new StaticMapLabel($label, $position, true));
+        $this->addIcon(StaticMapIcon::waypoint($position));
     }
 
     public function addLandmark(Coordinate $position, $label) {
-        $this->pointsOfInterest[] = ['type' => 'landmark'] + compact('position', 'label');
+        $this->addLabel(new StaticMapLabel($label, $position, true));
+        $this->addIcon(StaticMapIcon::landmark($position));
     }
 
     public function addVista(Coordinate $position) {
-        $this->pointsOfInterest[] = ['type' => 'vista', 'label' => null] + compact('position');
+        $this->addIcon(StaticMapIcon::vista($position));
     }
 
-    /**
-     * Adds a custom point of interest.
-     *
-     * @param Coordinate $position
-     * @param resource $icon
-     * @param string|null $label
-     */
-    public function addCustomPointOfInterest(Coordinate $position, $icon, $label) {
-        $this->pointsOfInterest[] = ['type' => 'custom'] + compact('position', 'label', 'icon');
+    public function addIcon(StaticMapIcon $icon) {
+        $this->icons[] = $icon;
+    }
+
+    public function addLabel(StaticMapLabel $label) {
+        $this->labels[] = $label;
     }
 
     /**
@@ -230,50 +232,45 @@ class StaticMap {
         imagedestroy($buffer);
         unset($buffer);
 
-        // render waypoints/pois/…
-        $poiIcons = [];
-        foreach($this->pointsOfInterest as $pointOfInterest) {
-            $hasCustomIcon = array_key_exists('icon', $pointOfInterest) && is_resource($pointOfInterest['icon']);
-
-            if(!$hasCustomIcon && !array_key_exists($pointOfInterest['type'], $poiIcons)) {
-                $poiIcons[$pointOfInterest['type']] = imagecreatefrompng(__DIR__.'/assets/'.$pointOfInterest['type'].'.png');
-            }
-
-            $icon = $hasCustomIcon
-                ? $pointOfInterest['icon']
-                : $poiIcons[$pointOfInterest['type']];
-
-            $poiPosition = $this->worldCoordinateToBoundary($pointOfInterest['position'])
-                ->multiply($width * $scale, $height * $scale)->round();
-
-            $this->drawIconWithLabel($image, $icon, $pointOfInterest['label'], $poiPosition, $scale, $white, $black);
+        // render icons
+        foreach($this->icons as $icon) {
+            $this->renderIcon($image, $icon, $width, $height, $scale);
         }
 
-        foreach($poiIcons as $icon) {
-            imagedestroy($icon);
-            unset($icon);
+        // render labels
+        foreach($this->labels as $label) {
+            $this->renderLabel($image, $label, $width, $height, $scale);
         }
-        unset($poiIcons);
 
         return $image;
     }
 
-    protected function drawIconWithLabel(&$image, &$icon, $text, $position, $scale, $color, $shadow) {
-        imagecopyresampled($image, $icon, $position->x - 8 * $scale, $position->y - 8 * $scale, 0, 0, 16 * $scale, 16 * $scale, imagesx($icon), imagesy($icon));
+    protected function renderIcon(&$image, StaticMapIcon $icon, $width, $height, $scale) {
+        $position = $this->worldCoordinateToBoundary($icon->getPosition())
+            ->multiply($width * $scale, $height * $scale)->round();
 
-        if($text === null) {
-            return;
-        }
+        $img = $icon->getIcon();
 
+        imagecopyresampled($image, $img, $position->x - 8 * $scale, $position->y - 8 * $scale, 0, 0, 16 * $scale, 16 * $scale, imagesx($img), imagesy($img));
+    }
+
+    protected function renderLabel(&$image, StaticMapLabel $label, $width, $height, $scale) {
         $fontFile = __DIR__.'/assets/menomonia.ttf';
+        $color = $label->getColor();
+        $color = imagecolorallocate($image, $color[0], $color[1], $color[2]);
+        $shadow = imagecolorallocate($image, 0, 0, 0);
+        $text = $label->getText();
 
         $fontSize = 10 * ($scale * 0.75 + 0.25);
         $textSize = imagettfbbox($fontSize, 0, $fontFile, $text);
         $textWidth = $textSize[2] - $textSize[0];
         $textHeight = $textSize[3] - $textSize[1];
 
-        $imageWidth = imagesx($image);
-        $imageHeight = imagesy($image);
+        $imageWidth = $width * $scale;
+        $imageHeight = $height * $scale;
+
+        $position = $this->worldCoordinateToBoundary($label->getPosition())
+            ->multiply($width * $scale, $height * $scale)->round();
 
         $x = min(max(8 * $scale, $position->x - $textWidth / 2), $imageWidth - 8 * $scale - $textWidth);
         $y = min(max($textHeight + 8 * $scale, $position->y + $textHeight + 18 * $scale), $imageHeight - 8 * $scale);
