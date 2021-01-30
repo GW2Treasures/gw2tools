@@ -11,14 +11,14 @@ use GW2Treasures\GW2Tools\Chatlinks\SkinChatlink;
 use GW2Treasures\GW2Tools\Chatlinks\TextChatlink;
 use GW2Treasures\GW2Tools\Chatlinks\TraitChatlink;
 use GW2Treasures\GW2Tools\Chatlinks\WvWObjectiveChatlink;
-use GW2Treasures\GW2Tools\Tests\TestCase;
+use GW2Treasures\GW2Tools\Tests\BasicTestCase;
 use GW2Treasures\GW2Tools\Chatlinks\Chatlink;
 use GW2Treasures\GW2Tools\Chatlinks\ItemChatlink;
 
-class ChatlinkTest extends TestCase {
+class ChatlinkTest extends BasicTestCase {
     function testDecodeItemChatlink() {
         $chatlink = Chatlink::decode('[&AgEJTQAA]');
-        
+
         $this->assertInstanceOf(ItemChatlink::class, $chatlink,
             "Decoding an item chatlink should return an instance of ItemChatlink");
         $this->assertEquals(Chatlink::TYPE_ITEM, $chatlink->getType(),
@@ -107,16 +107,18 @@ class ChatlinkTest extends TestCase {
     }
 
     /**
-     * @expectedException \GW2Treasures\GW2Tools\Chatlinks\Exceptions\UnknownChatlinkTypeException
      */
     function testDecodeUnknownChatlink() {
+        $this->expectException(\GW2Treasures\GW2Tools\Chatlinks\Exceptions\UnknownChatlinkTypeException::class);
+
         Chatlink::decode('[&0gEJTQAA]');
     }
 
     /**
-     * @expectedException \GW2Treasures\GW2Tools\Chatlinks\Exceptions\ChatlinkFormatException
      */
     function testDecodeMalformedChatlink() {
+        $this->expectException(\GW2Treasures\GW2Tools\Chatlinks\Exceptions\ChatlinkFormatException::class);
+
         Chatlink::decode('not a chatlink');
     }
 }

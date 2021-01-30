@@ -3,9 +3,9 @@
 namespace GW2Treasures\GW2Tools\Tests\Common;
 
 use GW2Treasures\GW2Tools\Common\ItemStack;
-use GW2Treasures\GW2Tools\Tests\TestCase;
+use GW2Treasures\GW2Tools\Tests\BasicTestCase;
 
-class ItemStackTest extends TestCase {
+class ItemStackTest extends BasicTestCase {
     public function testFromArray() {
         $itemStack = ItemStack::fromArray([
             'id' => 42,

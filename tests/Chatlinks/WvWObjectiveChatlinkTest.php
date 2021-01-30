@@ -3,20 +3,22 @@
 namespace GW2Treasures\GW2Tools\Tests\Chatlinks;
 
 use GW2Treasures\GW2Tools\Chatlinks\WvWObjectiveChatlink;
-use GW2Treasures\GW2Tools\Tests\TestCase;
+use GW2Treasures\GW2Tools\Tests\BasicTestCase;
 
-class WvWObjectiveChatlinkTest extends TestCase {
+class WvWObjectiveChatlinkTest extends BasicTestCase {
     /**
-     * @expectedException \GW2Treasures\GW2Tools\Chatlinks\Exceptions\InvalidChatlinkTypeException
      */
     public function testDecodesOnlyTraitChatlinks() {
+        $this->expectException(\GW2Treasures\GW2Tools\Chatlinks\Exceptions\InvalidChatlinkTypeException::class);
+
         WvWObjectiveChatlink::decode('[&AgEJTQAA]');
     }
 
     /**
-     * @expectedException \GW2Treasures\GW2Tools\Chatlinks\Exceptions\ChatlinkFormatException
      */
     public function testDecodeInvalidChatlink() {
+        $this->expectException(\GW2Treasures\GW2Tools\Chatlinks\Exceptions\ChatlinkFormatException::class);
+
         WvWObjectiveChatlink::decode('[&DGYAAABOBAAAinvalid]');
     }
 
@@ -30,16 +32,18 @@ class WvWObjectiveChatlinkTest extends TestCase {
     }
 
     /**
-     * @expectedException \InvalidArgumentException
      */
     public function testInvalidObjectiveId() {
+        $this->expectException(\InvalidArgumentException::class);
+
         new WvWObjectiveChatlink('102-asd');
     }
 
     /**
-     * @expectedException \InvalidArgumentException
      */
     public function testInvalidMissingMapId() {
+        $this->expectException(\InvalidArgumentException::class);
+
         new WvWObjectiveChatlink(102);
     }
 }
