@@ -20,7 +20,7 @@
  - ...
 
 ## Requirements
- - PHP >= 5.5
+ - PHP >= 7.2
 
 ## Setup
 
@@ -39,7 +39,7 @@ include 'vendor/autoload.php';
 
 ### Using the gw2api.phar archive
 
-You need to download the [latest gw2tools.phar](https://github.com/GW2Treasures/gw2tools/releases/latest) 
+You need to download the [latest gw2tools.phar](https://github.com/GW2Treasures/gw2tools/releases/latest)
 and place it in your project directory.
 Now you can include it to start using the GW2Tools.
 

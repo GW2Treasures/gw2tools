@@ -3,20 +3,22 @@
 namespace GW2Treasures\GW2Tools\Tests\Chatlinks;
 
 use GW2Treasures\GW2Tools\Chatlinks\TraitChatlink;
-use GW2Treasures\GW2Tools\Tests\TestCase;
+use GW2Treasures\GW2Tools\Tests\BasicTestCase;
 
-class TraitChatlinkTest extends TestCase {
+class TraitChatlinkTest extends BasicTestCase {
     /**
-     * @expectedException \GW2Treasures\GW2Tools\Chatlinks\Exceptions\InvalidChatlinkTypeException
      */
     public function testDecodesOnlyTraitChatlinks() {
+        $this->expectException(\GW2Treasures\GW2Tools\Chatlinks\Exceptions\InvalidChatlinkTypeException::class);
+
         TraitChatlink::decode('[&AgEJTQAA]');
     }
 
     /**
-     * @expectedException \GW2Treasures\GW2Tools\Chatlinks\Exceptions\ChatlinkFormatException
      */
     public function testDecodeInvalidChatlink() {
+        $this->expectException(\GW2Treasures\GW2Tools\Chatlinks\Exceptions\ChatlinkFormatException::class);
+
         TraitChatlink::decode('[&B/IDAAAinvalid]');
     }
 

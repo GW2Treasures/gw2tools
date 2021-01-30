@@ -5,20 +5,22 @@ namespace GW2Treasures\GW2Tools\Tests\Chatlinks;
 use GW2Treasures\GW2Tools\Chatlinks\Chatlink;
 use GW2Treasures\GW2Tools\Chatlinks\ItemChatlink;
 use GW2Treasures\GW2Tools\Common\ItemStack;
-use GW2Treasures\GW2Tools\Tests\TestCase;
+use GW2Treasures\GW2Tools\Tests\BasicTestCase;
 
-class ItemChatlinkTest extends TestCase {
+class ItemChatlinkTest extends BasicTestCase {
     /**
-     * @expectedException \GW2Treasures\GW2Tools\Chatlinks\Exceptions\InvalidChatlinkTypeException
      */
     public function testDecodesOnlyItemChatlinks() {
+        $this->expectException(\GW2Treasures\GW2Tools\Chatlinks\Exceptions\InvalidChatlinkTypeException::class);
+
         ItemChatlink::decode('[&AQAAAAA=]');
     }
 
     /**
-     * @expectedException \GW2Treasures\GW2Tools\Chatlinks\Exceptions\ChatlinkFormatException
      */
     public function testDecodeInvalidChatlink() {
+        $this->expectException(\GW2Treasures\GW2Tools\Chatlinks\Exceptions\ChatlinkFormatException::class);
+
         ItemChatlink::decode('[&AgAAAAAAAAAAinvalid]');
     }
 
